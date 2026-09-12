@@ -1,0 +1,33 @@
+[
+  {
+    "Description": "Generic API Key",
+    "StartLine": 12,
+    "EndLine": 12,
+    "StartColumn": 10,
+    "EndColumn": 48,
+    "Match": "api_key = \"sk-live-SUPER-SECRET-VALUE\"",
+    "Secret": "sk-live-SUPER-SECRET-VALUE",
+    "File": "config/settings.py",
+    "Commit": "abc123def456",
+    "Entropy": 4.21,
+    "Author": "dev",
+    "Email": "dev@example.com",
+    "Date": "2026-01-15T10:00:00Z",
+    "Message": "add config",
+    "Tags": [],
+    "RuleID": "generic-api-key",
+    "Fingerprint": "config/settings.py:generic-api-key:12"
+  },
+  {
+    "Description": "AWS Access Key",
+    "StartLine": 3,
+    "EndLine": 3,
+    "StartColumn": 1,
+    "EndColumn": 24,
+    "Match": "AKIAIOSFODNN7EXAMPLE",
+    "Secret": "AKIAIOSFODNN7EXAMPLE",
+    "File": ".env",
+    "RuleID": "aws-access-key",
+    "Fingerprint": ".env:aws-access-key:3"
+  }
+]

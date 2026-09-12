@@ -1,0 +1,12 @@
+{
+  "findings": [
+    {
+      "Description": "GitHub Personal Access Token",
+      "StartLine": 8,
+      "File": "scripts/deploy.sh",
+      "RuleID": "github-pat",
+      "Secret": "ghp_please-do-not-store-me",
+      "Match": "token=ghp_please-do-not-store-me"
+    }
+  ]
+}

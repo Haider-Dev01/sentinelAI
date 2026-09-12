@@ -1,0 +1,43 @@
+{
+  "version": "1.90.0",
+  "results": [
+    {
+      "check_id": "python.lang.security.audit.dangerous-subprocess-use.dangerous-subprocess-use",
+      "path": "app/utils.py",
+      "start": {"line": 42, "col": 5, "offset": 900},
+      "end": {"line": 42, "col": 28, "offset": 923},
+      "extra": {
+        "message": "Detected subprocess function. Possible command injection.",
+        "severity": "ERROR",
+        "metadata": {
+          "cwe": ["CWE-78"],
+          "owasp": ["A03:2021 - Injection"],
+          "source": "https://semgrep.dev/r/python.lang.security.audit.dangerous-subprocess-use"
+        }
+      }
+    },
+    {
+      "check_id": "javascript.express.security.audit.express-cookie-session-no-secure",
+      "path": "web/server.js",
+      "start": {"line": 17, "col": 1},
+      "end": {"line": 20, "col": 3},
+      "extra": {
+        "message": "Cookie session without secure flag.",
+        "severity": "WARNING",
+        "metadata": {}
+      }
+    },
+    {
+      "check_id": "generic.info.todo",
+      "path": "README.md",
+      "start": {"line": 1, "col": 1},
+      "end": {"line": 1, "col": 8},
+      "extra": {
+        "message": "TODO comment",
+        "severity": "INFO"
+      }
+    }
+  ],
+  "errors": [],
+  "paths": {"scanned": ["app/utils.py", "web/server.js", "README.md"]}
+}
