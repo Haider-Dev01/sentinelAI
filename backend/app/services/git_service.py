@@ -7,7 +7,7 @@ import uuid
 from pathlib import Path
 
 from app.config import settings
-from app.services.scanners.process import ScannerExecutionError, run_process, which_or_raise
+from app.services.scanners.process import run_process, which_or_raise
 
 logger = logging.getLogger(__name__)
 

@@ -1,0 +1,42 @@
+name: SentinelAI Scan
+description: >
+  Scan the current repository with the SentinelAI API and post a findings
+  summary on the pull request, with a link to the dashboard.
+author: SentinelAI
+
+inputs:
+  api-url:
+    description: Base URL of the SentinelAI API (no trailing slash)
+    required: true
+  dashboard-url:
+    description: Public frontend origin used to build /scans/{id} links
+    required: true
+  github-token:
+    description: Token with pull-requests: write (typically secrets.GITHUB_TOKEN)
+    required: true
+  repo-url:
+    description: Git remote to scan. Defaults to the current GitHub repository.
+    required: false
+    default: ""
+  timeout-seconds:
+    description: Max seconds to wait for the scan to finish
+    required: false
+    default: "300"
+
+runs:
+  using: composite
+  steps:
+    - name: Run SentinelAI scan
+      shell: bash
+      env:
+        INPUT_API_URL: ${{ inputs.api-url }}
+        INPUT_DASHBOARD_URL: ${{ inputs.dashboard-url }}
+        INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_REPO_URL: ${{ inputs.repo-url }}
+        INPUT_TIMEOUT_SECONDS: ${{ inputs.timeout-seconds }}
+        PYTHONPATH: ${{ github.action_path }}
+      run: python3 "${{ github.action_path }}/scan.py"
+
+branding:
+  icon: shield
+  color: green

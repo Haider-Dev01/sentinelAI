@@ -15,5 +15,56 @@ services:
       timeout: 5s
       retries: 10
 
+  chroma:
+    image: chromadb/chroma:0.6.3
+    ports:
+      - "8001:8000"
+    volumes:
+      - sentinelai_chroma:/chroma/chroma
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+
+  backend:
+    image: sentinelai-backend:local
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://sentinel:sentinel@db:5432/sentinelai
+      CHROMA_DIR: /data/chroma
+      SCAN_WORK_DIR: /tmp/sentinelai-scans
+      RAG_ENABLED: "false"
+      RAG_EMBEDDER: tfidf
+      RAG_COLLECTION: sentinelai-tfidf-baseline-section
+      LLM_PROVIDER: template
+      CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173,http://localhost:8080,http://127.0.0.1:8080
+    volumes:
+      - sentinelai_backend_chroma:/data/chroma
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+
+  frontend:
+    image: sentinelai-frontend:local
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_URL: /api
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
 volumes:
   sentinelai_pgdata:
+  sentinelai_chroma:
+  sentinelai_backend_chroma:

@@ -82,3 +82,11 @@ def test_eval_artifacts(client):
     llm = client.get("/eval/llm")
     assert llm.status_code == 200
     assert llm.json()["winner"]["model"] == "template-fixer"
+
+
+def test_eval_results_dir_points_at_harness_output():
+    from app.routers.eval_results import results_dir
+
+    directory = results_dir()
+    assert (directory / "retrieval.json").is_file()
+    assert (directory / "llm.json").is_file()

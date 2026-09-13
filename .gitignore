@@ -17,7 +17,8 @@ build/
 tmp/
 .scan-work/
 
-# Node (frontend, later)
+# Node
+node_modules/
 coverage/
 
 # IDE

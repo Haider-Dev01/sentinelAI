@@ -26,7 +26,10 @@ class Settings(BaseSettings):
     llm_provider: str = "template"
     openai_api_key: str | None = None
     ollama_base_url: str = "http://127.0.0.1:11434"
-    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+    cors_origins: str = (
+        "http://localhost:5173,http://127.0.0.1:5173,"
+        "http://localhost:8080,http://127.0.0.1:8080"
+    )
 
 
 settings = Settings()

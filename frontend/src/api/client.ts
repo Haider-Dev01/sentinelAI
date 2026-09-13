@@ -18,7 +18,7 @@ import type {
   TrendResponse,
 } from "../types";
 
-const BASE = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+const BASE = (import.meta.env.VITE_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
 const GET_TIMEOUT_MS = 800;
 
 async function getJson<T>(path: string): Promise<T> {

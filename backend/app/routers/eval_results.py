@@ -8,7 +8,19 @@ from fastapi import APIRouter, HTTPException, status
 
 router = APIRouter(prefix="/eval", tags=["eval"])
 
-RESULTS = Path(__file__).resolve().parents[3] / "eval" / "results"
+
+def results_dir() -> Path:
+    here = Path(__file__).resolve()
+    candidates = [
+        here.parents[3] / "eval" / "results",  # repo: backend/app/routers → root
+        here.parents[2] / "eval" / "results",  # some Docker layouts
+        Path("/eval/results"),
+        Path("/app/eval/results"),
+    ]
+    for path in candidates:
+        if path.is_dir():
+            return path
+    return candidates[0]
 
 
 @router.get("/retrieval")
@@ -22,7 +34,7 @@ def llm_results() -> dict[str, Any]:
 
 
 def _read_json(name: str) -> dict[str, Any]:
-    path = RESULTS / name
+    path = results_dir() / name
     if not path.exists():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

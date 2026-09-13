@@ -1,0 +1,159 @@
+# Canonical pipeline. GitHub executes the copy at .github/workflows/ci.yml.
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+  packages: write
+  pull-requests: write
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "22"
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Backend ruff
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+          ruff check app tests
+      - name: Frontend typecheck
+        working-directory: frontend
+        run: |
+          npm ci
+          npx tsc -b --pretty false
+
+  backend-test:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Pytest + coverage
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          python -m pytest --cov=app --cov-report=term-missing --cov-fail-under=80
+
+  frontend-test:
+    name: Frontend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Vitest + coverage
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run coverage
+
+  action-test:
+    name: Reusable action tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Pytest action
+        working-directory: infra/github-action
+        run: |
+          python -m pip install pytest
+          python -m pytest
+
+  docker:
+    name: Docker build
+    needs: [lint, backend-test, frontend-test, action-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/Dockerfile
+          push: false
+          tags: sentinelai-backend:ci
+      - name: Build frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: frontend/Dockerfile
+          push: false
+          tags: sentinelai-frontend:ci
+          build-args: |
+            VITE_API_URL=/api
+
+  deploy:
+    name: Publish images to GHCR
+    needs: docker
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Lowercase image prefix
+        run: echo "GHCR=$(echo 'ghcr.io/${{ github.repository_owner }}/sentinelai' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push backend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/Dockerfile
+          push: true
+          tags: |
+            ${{ env.GHCR }}-backend:${{ github.sha }}
+            ${{ env.GHCR }}-backend:latest
+      - name: Push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: frontend/Dockerfile
+          push: true
+          tags: |
+            ${{ env.GHCR }}-frontend:${{ github.sha }}
+            ${{ env.GHCR }}-frontend:latest
+          build-args: |
+            VITE_API_URL=/api
+      - name: Image coordinates
+        run: |
+          echo "Published ${GHCR}-backend:${{ github.sha }}"
+          echo "Published ${GHCR}-frontend:${{ github.sha }}"
+          echo "Optional cluster: kubectl apply -k infra/k8s after retagging imagePullPolicy."

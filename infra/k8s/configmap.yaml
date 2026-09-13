@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sentinelai-config
+  namespace: sentinelai
+data:
+  DATABASE_URL: postgresql+psycopg://sentinel:sentinel@postgres:5432/sentinelai
+  CHROMA_DIR: /data/chroma
+  SCAN_WORK_DIR: /tmp/sentinelai-scans
+  RAG_ENABLED: "false"
+  RAG_EMBEDDER: tfidf
+  RAG_COLLECTION: sentinelai-tfidf-baseline-section
+  RAG_K: "5"
+  LLM_PROVIDER: template
+  CORS_ORIGINS: "*"
+  POSTGRES_USER: sentinel
+  POSTGRES_PASSWORD: sentinel
+  POSTGRES_DB: sentinelai

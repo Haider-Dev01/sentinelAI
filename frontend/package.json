@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "lint": "tsc -b --pretty false",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage"
   },
