@@ -1,0 +1,30 @@
+[project]
+name = "sentinelai-eval"
+version = "0.1.0"
+description = "Retrieval and LLM evaluation harness for SentinelAI"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.27.0",
+    "matplotlib>=3.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-cov>=6.0.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [".", "../data-pipeline"]
+testpaths = ["tests"]
+addopts = "-q --cov=rag_eval --cov-report=term-missing --cov-fail-under=80"
+
+[tool.coverage.run]
+source = ["rag_eval"]
+omit = ["rag_eval/run_retrieval.py", "rag_eval/run_llm.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+]

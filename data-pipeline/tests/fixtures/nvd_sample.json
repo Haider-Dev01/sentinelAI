@@ -1,0 +1,51 @@
+{
+  "resultsPerPage": 2,
+  "startIndex": 0,
+  "totalResults": 2,
+  "format": "NVD_CVE",
+  "version": "2.0",
+  "vulnerabilities": [
+    {
+      "cve": {
+        "id": "CVE-2021-44228",
+        "published": "2021-12-10T10:15:09.143",
+        "vulnStatus": "Analyzed",
+        "descriptions": [
+          {
+            "lang": "en",
+            "value": "Apache Log4j2 JNDI features do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled."
+          }
+        ],
+        "metrics": {
+          "cvssMetricV31": [
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "3.1",
+                "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+                "baseScore": 10.0,
+                "baseSeverity": "CRITICAL"
+              }
+            }
+          ]
+        },
+        "weaknesses": [
+          {
+            "type": "Primary",
+            "description": [{ "lang": "en", "value": "CWE-917" }]
+          }
+        ]
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2099-0000",
+        "vulnStatus": "Rejected",
+        "descriptions": [
+          { "lang": "en", "value": "This candidate was withdrawn." }
+        ]
+      }
+    }
+  ]
+}

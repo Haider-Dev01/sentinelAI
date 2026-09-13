@@ -1,0 +1,114 @@
+[
+  {
+    "id": "f01-sqli",
+    "type": "sast",
+    "severity": "high",
+    "scanner": "semgrep",
+    "rule_id": "python.sql.injection",
+    "file_path": "app/accounts.py",
+    "line": 42,
+    "description": "SQL query concatenated with untrusted request parameter (SQL injection).",
+    "snippet": "query = \"SELECT * FROM accounts WHERE cust_id='\" + request.args.get(\"id\") + \"'\"\ncursor.execute(query)",
+    "contexts": [
+      "OWASP A05:2025 Injection. Use a parameterized API so user input cannot change query structure."
+    ]
+  },
+  {
+    "id": "f02-secret",
+    "type": "secret",
+    "severity": "high",
+    "scanner": "gitleaks",
+    "rule_id": "generic-api-key",
+    "file_path": "config/settings.py",
+    "line": 12,
+    "description": "Hardcoded API key in source (CWE-798).",
+    "snippet": "api_key = \"sk-live-SUPER-SECRET-VALUE\"",
+    "contexts": [
+      "OWASP A07:2025 Authentication Failures. CWE-798 Use of Hard-coded Credentials."
+    ]
+  },
+  {
+    "id": "f03-pickle",
+    "type": "sast",
+    "severity": "high",
+    "scanner": "semgrep",
+    "rule_id": "python.lang.security.deserialization.pickle",
+    "file_path": "app/cache.py",
+    "line": 8,
+    "description": "Untrusted pickle.loads can execute arbitrary code (CWE-502).",
+    "snippet": "data = pickle.loads(request.data)",
+    "contexts": [
+      "OWASP A08:2025 Software or Data Integrity Failures. Insecure deserialization (CWE-502)."
+    ]
+  },
+  {
+    "id": "f04-ssrf",
+    "type": "sast",
+    "severity": "high",
+    "scanner": "semgrep",
+    "rule_id": "python.ssrf",
+    "file_path": "app/fetch.py",
+    "line": 19,
+    "description": "HTTP request to user-controlled URL (SSRF / CWE-918).",
+    "snippet": "return requests.get(request.args[\"url\"]).text",
+    "contexts": [
+      "OWASP A01:2025 Broken Access Control includes SSRF (CWE-918). Allow-list destinations."
+    ]
+  },
+  {
+    "id": "f05-cmdi",
+    "type": "sast",
+    "severity": "high",
+    "scanner": "semgrep",
+    "rule_id": "python.lang.security.audit.subprocess",
+    "file_path": "app/dns.py",
+    "line": 5,
+    "description": "OS command built from unsanitized input (command injection).",
+    "snippet": "os.system(\"nslookup \" + domain)",
+    "contexts": [
+      "OWASP A05 Injection. Do not concatenate untrusted data into OS commands."
+    ]
+  },
+  {
+    "id": "f06-lodash",
+    "type": "dependency",
+    "severity": "high",
+    "scanner": "osv-scanner",
+    "rule_id": "CVE-2020-8203",
+    "file_path": "frontend/package-lock.json",
+    "line": null,
+    "description": "lodash@4.17.15 prototype pollution (CVE-2020-8203).",
+    "snippet": "\"lodash\": \"4.17.15\"",
+    "contexts": [
+      "CVE-2020-8203 Prototype Pollution in lodash prior to 4.17.19. Upgrade the dependency."
+    ]
+  },
+  {
+    "id": "f07-log4j",
+    "type": "dependency",
+    "severity": "critical",
+    "scanner": "osv-scanner",
+    "rule_id": "CVE-2021-44228",
+    "file_path": "pom.xml",
+    "line": null,
+    "description": "Apache Log4j2 JNDI lookup RCE (Log4Shell).",
+    "snippet": "<dependency><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-core</artifactId><version>2.14.1</version></dependency>",
+    "contexts": [
+      "CVE-2021-44228 Log4Shell: attacker-controlled LDAP JNDI lookups enable remote code execution."
+    ]
+  },
+  {
+    "id": "f08-yaml",
+    "type": "sast",
+    "severity": "medium",
+    "scanner": "semgrep",
+    "rule_id": "python.yaml.unsafe-load",
+    "file_path": "app/config_loader.py",
+    "line": 3,
+    "description": "yaml.load without a SafeLoader can deserialize untrusted objects.",
+    "snippet": "cfg = yaml.load(open(path))",
+    "contexts": [
+      "Prefer yaml.safe_load. Untrusted deserialization maps to integrity / injection failures."
+    ]
+  }
+]

@@ -5,6 +5,7 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+eval/pytest-cache-files-*/
 .coverage
 htmlcov/
 dist/

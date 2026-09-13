@@ -53,6 +53,9 @@ class ScanService:
         scan.repository = repository
         return scan
 
+    def get_finding(self, finding_id: uuid.UUID) -> Finding | None:
+        return self.db.get(Finding, finding_id)
+
     def get_scan(self, scan_id: uuid.UUID) -> Scan | None:
         stmt = (
             select(Scan)

@@ -1,0 +1,151 @@
+{
+  "version": "0.1.0",
+  "language": "en",
+  "notes": "Corpus and questions are in English (OWASP/NVD source language) so Phase 3 retrieval metrics are not confounded by translation. Answers are short factual targets; `must_contain` is the deterministic core for overlap scoring.",
+  "pairs": [
+    {
+      "id": "q01",
+      "question": "According to the OWASP Top 10:2025, what is category A01?",
+      "expected_answer": "A01:2025 is Broken Access Control, still ranked number one.",
+      "must_contain": ["broken access control"],
+      "relevant_doc_ids": ["owasp:A01:2025"],
+      "category": "A01:2025"
+    },
+    {
+      "id": "q02",
+      "question": "What access-control flaw occurs when an application lets a user view or edit another account by changing its unique identifier?",
+      "expected_answer": "Insecure direct object references (IDOR): viewing or editing someone else's account via its identifier.",
+      "must_contain": ["insecure direct object"],
+      "relevant_doc_ids": ["owasp:A01:2025"],
+      "category": "A01:2025"
+    },
+    {
+      "id": "q03",
+      "question": "In OWASP Top 10:2025, which category includes Server-Side Request Forgery (SSRF)?",
+      "expected_answer": "SSRF (CWE-918) is mapped under A01:2025 Broken Access Control, unlike the 2021 standalone A10.",
+      "must_contain": ["broken access control"],
+      "relevant_doc_ids": ["owasp:A01:2025"],
+      "category": "A01:2025"
+    },
+    {
+      "id": "q04",
+      "question": "What is A02 in the OWASP Top 10:2025?",
+      "expected_answer": "A02:2025 is Security Misconfiguration.",
+      "must_contain": ["security misconfiguration"],
+      "relevant_doc_ids": ["owasp:A02:2025"],
+      "category": "A02:2025"
+    },
+    {
+      "id": "q05",
+      "question": "What new high-ranking OWASP Top 10:2025 category covers compromised build pipelines and untrusted dependencies?",
+      "expected_answer": "A03:2025 Software Supply Chain Failures.",
+      "must_contain": ["supply chain"],
+      "relevant_doc_ids": ["owasp:A03:2025"],
+      "category": "A03:2025"
+    },
+    {
+      "id": "q06",
+      "question": "Which OWASP Top 10:2025 category covers failures such as transmitting data in cleartext or using weak algorithms?",
+      "expected_answer": "A04:2025 Cryptographic Failures.",
+      "must_contain": ["cryptographic"],
+      "relevant_doc_ids": ["owasp:A04:2025"],
+      "category": "A04:2025"
+    },
+    {
+      "id": "q07",
+      "question": "When is an application considered vulnerable to injection according to OWASP?",
+      "expected_answer": "When untrusted user input is sent to an interpreter without validation, filtering, or parameterization.",
+      "must_contain": ["interpreter"],
+      "relevant_doc_ids": ["owasp:A05:2025"],
+      "category": "A05:2025"
+    },
+    {
+      "id": "q08",
+      "question": "What is the preferred way to prevent SQL injection?",
+      "expected_answer": "Keep data separate from queries by using a parameterized API or ORM rather than concatenating user input into SQL.",
+      "must_contain": ["parameter"],
+      "relevant_doc_ids": ["owasp:A05:2025"],
+      "category": "A05:2025"
+    },
+    {
+      "id": "q09",
+      "question": "What is A06 in the OWASP Top 10:2025?",
+      "expected_answer": "A06:2025 Insecure Design — flaws in architecture and threat modeling rather than a single implementation bug.",
+      "must_contain": ["insecure design"],
+      "relevant_doc_ids": ["owasp:A06:2025"],
+      "category": "A06:2025"
+    },
+    {
+      "id": "q10",
+      "question": "Which OWASP Top 10:2025 category covers broken authentication, session issues, and hardcoded credentials (CWE-798)?",
+      "expected_answer": "A07:2025 Authentication Failures.",
+      "must_contain": ["authentication"],
+      "relevant_doc_ids": ["owasp:A07:2025"],
+      "category": "A07:2025"
+    },
+    {
+      "id": "q11",
+      "question": "Why is deserializing untrusted data dangerous according to OWASP integrity guidance?",
+      "expected_answer": "A08:2025 Software or Data Integrity Failures includes insecure deserialization (CWE-502), which can lead to remote code execution.",
+      "must_contain": ["deserial"],
+      "relevant_doc_ids": ["owasp:A08:2025"],
+      "category": "A08:2025"
+    },
+    {
+      "id": "q12",
+      "question": "What is A09 in the OWASP Top 10:2025 focused on besides logging?",
+      "expected_answer": "A09:2025 Security Logging and Alerting Failures — detections must produce alerts that enable a response, not just log files.",
+      "must_contain": ["alert"],
+      "relevant_doc_ids": ["owasp:A09:2025"],
+      "category": "A09:2025"
+    },
+    {
+      "id": "q13",
+      "question": "Which OWASP Top 10:2025 category is new and covers failing open, improper error handling, and related logic bugs?",
+      "expected_answer": "A10:2025 Mishandling of Exceptional Conditions.",
+      "must_contain": ["exceptional"],
+      "relevant_doc_ids": ["owasp:A10:2025"],
+      "category": "A10:2025"
+    },
+    {
+      "id": "q14",
+      "question": "What is CVE-2021-44228 commonly known as, and what does it allow?",
+      "expected_answer": "Log4Shell: a JNDI lookup flaw in Apache Log4j that enables remote code execution via crafted log input.",
+      "must_contain": ["log4j"],
+      "relevant_doc_ids": ["cve:CVE-2021-44228"],
+      "category": "A05:2025"
+    },
+    {
+      "id": "q15",
+      "question": "What product is affected by CVE-2022-22965 (Spring4Shell)?",
+      "expected_answer": "Spring Framework / Spring MVC applications, via class-loader data binding that can lead to remote code execution.",
+      "must_contain": ["spring"],
+      "relevant_doc_ids": ["cve:CVE-2022-22965"],
+      "category": "A05:2025"
+    },
+    {
+      "id": "q16",
+      "question": "What vulnerability is CVE-2020-8203 in lodash 4.17.15?",
+      "expected_answer": "Prototype pollution in lodash (aliases include CVE-2020-8203), allowing attackers to modify Object.prototype.",
+      "must_contain": ["prototype"],
+      "relevant_doc_ids": ["cve:CVE-2020-8203"],
+      "category": "A08:2025"
+    },
+    {
+      "id": "q17",
+      "question": "Why is CVE-2024-3094 in xz-utils a supply-chain issue?",
+      "expected_answer": "Malicious code was inserted into xz-utils (liblzma) through the upstream build, compromising the software supply chain.",
+      "must_contain": ["xz"],
+      "relevant_doc_ids": ["cve:CVE-2024-3094"],
+      "category": "A03:2025"
+    },
+    {
+      "id": "q18",
+      "question": "Which CWE describes hardcoded passwords or API keys in source code, as detected by secret scanners?",
+      "expected_answer": "CWE-798 Use of Hard-coded Credentials, mapped to A07:2025 Authentication Failures.",
+      "must_contain": ["798"],
+      "relevant_doc_ids": ["owasp:A07:2025"],
+      "category": "A07:2025"
+    }
+  ]
+}

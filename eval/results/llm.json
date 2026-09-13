@@ -1,0 +1,146 @@
+{
+  "rows": [
+    {
+      "model": "template-fixer",
+      "n": 8,
+      "syntax_ok_rate": 1.0,
+      "hallucination_rate": 0.0,
+      "mean_latency_s": 0.0001,
+      "mean_cost_usd": 0.0
+    },
+    {
+      "model": "sloppy-fixer",
+      "n": 8,
+      "syntax_ok_rate": 0.0,
+      "hallucination_rate": 1.0,
+      "mean_latency_s": 0.0,
+      "mean_cost_usd": 0.0
+    }
+  ],
+  "winner": {
+    "model": "template-fixer",
+    "n": 8,
+    "syntax_ok_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "mean_latency_s": 0.0001,
+    "mean_cost_usd": 0.0
+  },
+  "per_finding": [
+    {
+      "finding_id": "f01-sqli",
+      "model": "template-fixer",
+      "latency_s": 0.0002,
+      "syntax_ok": true,
+      "output_preview": "{\"explanation\": \"Keep queries parameterized so user input cannot change SQL structure (OWASP A05).\", \"fix\": \"```python\\ncursor.execute(\\n    \\\"SELECT * FROM accounts WHERE cust_id = %s\\\",\\n    (cust_id,),\\n)\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f02-secret",
+      "model": "template-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": true,
+      "output_preview": "{\"explanation\": \"Store secrets in the environment, not in source. OWASP A07 / CWE-798.\", \"fix\": \"```python\\nimport os\\n\\napi_key = os.environ[\\\"API_KEY\\\"]\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f03-pickle",
+      "model": "template-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": true,
+      "output_preview": "{\"explanation\": \"Avoid pickle/unsafe loaders on untrusted data (CWE-502 / OWASP A08). Prefer JSON or yaml.safe_load.\", \"fix\": \"```python\\nimport json\\n\\ndata = json.loads(untrusted_bytes)\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f04-ssrf",
+      "model": "template-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": true,
+      "output_preview": "{\"explanation\": \"Allow-list destinations before fetching user-controlled URLs (SSRF / CWE-918, OWASP A01).\", \"fix\": \"```python\\nfrom urllib.parse import urlparse\\n\\nallowed = {\\\"api.internal.example\\\"}\\nparsed = urlparse(user_url)\\nif parse"
+    },
+    {
+      "finding_id": "f05-cmdi",
+      "model": "template-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": true,
+      "output_preview": "{\"explanation\": \"Pass arguments as a list; never concatenate untrusted input into a shell command (OWASP A05).\", \"fix\": \"```python\\nimport subprocess\\n\\nsubprocess.run([\\\"nslookup\\\", domain], check=True)\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f06-lodash",
+      "model": "template-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": true,
+      "output_preview": "{\"explanation\": \"Prototype pollution in lodash < 4.17.19 (CVE-2020-8203). Upgrade the dependency.\", \"fix\": \"```python\\n# CVE-2020-8203: upgrade lodash to a patched release\\nLODASH_VERSION = \\\"4.17.21\\\"\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f07-log4j",
+      "model": "template-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": true,
+      "output_preview": "{\"explanation\": \"Log4Shell (CVE-2021-44228) allows RCE via JNDI lookups. Upgrade Log4j to a patched 2.x.\", \"fix\": \"```python\\n# CVE-2021-44228 Log4Shell: use a patched Log4j 2.x\\nLOG4J_VERSION = \\\"2.17.1\\\"\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f08-yaml",
+      "model": "template-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": true,
+      "output_preview": "{\"explanation\": \"Avoid pickle/unsafe loaders on untrusted data (CWE-502 / OWASP A08). Prefer JSON or yaml.safe_load.\", \"fix\": \"```python\\nimport json\\n\\ndata = json.loads(untrusted_bytes)\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f01-sqli",
+      "model": "sloppy-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": false,
+      "output_preview": "{\"explanation\": \"Just concat the user input, it will be fine.\", \"fix\": \"```python\\ndef (this is not valid python\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f02-secret",
+      "model": "sloppy-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": false,
+      "output_preview": "{\"explanation\": \"Just concat the user input, it will be fine.\", \"fix\": \"```python\\ndef (this is not valid python\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f03-pickle",
+      "model": "sloppy-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": false,
+      "output_preview": "{\"explanation\": \"Just concat the user input, it will be fine.\", \"fix\": \"```python\\ndef (this is not valid python\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f04-ssrf",
+      "model": "sloppy-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": false,
+      "output_preview": "{\"explanation\": \"Just concat the user input, it will be fine.\", \"fix\": \"```python\\ndef (this is not valid python\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f05-cmdi",
+      "model": "sloppy-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": false,
+      "output_preview": "{\"explanation\": \"Just concat the user input, it will be fine.\", \"fix\": \"```python\\ndef (this is not valid python\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f06-lodash",
+      "model": "sloppy-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": false,
+      "output_preview": "{\"explanation\": \"Just concat the user input, it will be fine.\", \"fix\": \"```python\\ndef (this is not valid python\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f07-log4j",
+      "model": "sloppy-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": false,
+      "output_preview": "{\"explanation\": \"Just concat the user input, it will be fine.\", \"fix\": \"```python\\ndef (this is not valid python\\n```\", \"language\": \"python\"}"
+    },
+    {
+      "finding_id": "f08-yaml",
+      "model": "sloppy-fixer",
+      "latency_s": 0.0,
+      "syntax_ok": false,
+      "output_preview": "{\"explanation\": \"Just concat the user input, it will be fine.\", \"fix\": \"```python\\ndef (this is not valid python\\n```\", \"language\": \"python\"}"
+    }
+  ],
+  "unavailable": [
+    "openai:gpt-4o-mini skipped — OPENAI_API_KEY unset",
+    "ollama:llama3.1 skipped — not reachable at http://127.0.0.1:11434"
+  ]
+}

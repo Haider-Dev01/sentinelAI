@@ -1,0 +1,8 @@
+{
+  "embedder": "tfidf-baseline",
+  "chunker": "section",
+  "n_chunks": 110,
+  "recall@3": 0.8889,
+  "recall@5": 0.9444,
+  "mean_cosine": 0.1903
+}

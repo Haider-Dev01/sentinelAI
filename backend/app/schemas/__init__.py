@@ -1,4 +1,5 @@
 from app.schemas.scan import (
+    ExplainResponse,
     FindingRead,
     HealthResponse,
     RepositoryRead,
@@ -8,6 +9,7 @@ from app.schemas.scan import (
 )
 
 __all__ = [
+    "ExplainResponse",
     "FindingRead",
     "HealthResponse",
     "RepositoryRead",

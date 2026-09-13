@@ -1,0 +1,7 @@
+embedder,chunker,n_chunks,recall@3,recall@5,mean_cosine
+tfidf-baseline,fixed,135,0.7778,0.8889,0.1802
+tfidf-baseline,paragraph,104,0.8333,0.8333,0.1786
+tfidf-baseline,section,110,0.8889,0.9444,0.1903
+all-minilm-l6-v2,fixed,135,0.7222,0.8889,0.485
+all-minilm-l6-v2,paragraph,104,0.7778,0.8889,0.4762
+all-minilm-l6-v2,section,110,0.7222,0.8889,0.4998

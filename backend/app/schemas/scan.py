@@ -68,5 +68,15 @@ class ScanRead(BaseModel):
     findings_count: int
 
 
+class ExplainResponse(BaseModel):
+    finding_id: uuid.UUID
+    explanation: str
+    fix: str
+    language: str
+    confidence: float
+    model: str
+    retrieved_doc_ids: list[str]
+
+
 class HealthResponse(BaseModel):
     status: str

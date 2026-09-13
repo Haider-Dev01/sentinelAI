@@ -1,0 +1,87 @@
+{
+  "kind": "retrieval_comparison",
+  "labels": [
+    "tfidf-baseline / fixed",
+    "tfidf-baseline / paragraph",
+    "tfidf-baseline / section",
+    "all-minilm-l6-v2 / fixed",
+    "all-minilm-l6-v2 / paragraph",
+    "all-minilm-l6-v2 / section"
+  ],
+  "metrics": {
+    "recall@3": [
+      0.7778,
+      0.8333,
+      0.8889,
+      0.7222,
+      0.7778,
+      0.7222
+    ],
+    "recall@5": [
+      0.8889,
+      0.8333,
+      0.9444,
+      0.8889,
+      0.8889,
+      0.8889
+    ],
+    "mean_cosine": [
+      0.1802,
+      0.1786,
+      0.1903,
+      0.485,
+      0.4762,
+      0.4998
+    ]
+  },
+  "rows": [
+    {
+      "embedder": "tfidf-baseline",
+      "chunker": "fixed",
+      "n_chunks": 135,
+      "recall@3": 0.7778,
+      "recall@5": 0.8889,
+      "mean_cosine": 0.1802
+    },
+    {
+      "embedder": "tfidf-baseline",
+      "chunker": "paragraph",
+      "n_chunks": 104,
+      "recall@3": 0.8333,
+      "recall@5": 0.8333,
+      "mean_cosine": 0.1786
+    },
+    {
+      "embedder": "tfidf-baseline",
+      "chunker": "section",
+      "n_chunks": 110,
+      "recall@3": 0.8889,
+      "recall@5": 0.9444,
+      "mean_cosine": 0.1903
+    },
+    {
+      "embedder": "all-minilm-l6-v2",
+      "chunker": "fixed",
+      "n_chunks": 135,
+      "recall@3": 0.7222,
+      "recall@5": 0.8889,
+      "mean_cosine": 0.485
+    },
+    {
+      "embedder": "all-minilm-l6-v2",
+      "chunker": "paragraph",
+      "n_chunks": 104,
+      "recall@3": 0.7778,
+      "recall@5": 0.8889,
+      "mean_cosine": 0.4762
+    },
+    {
+      "embedder": "all-minilm-l6-v2",
+      "chunker": "section",
+      "n_chunks": 110,
+      "recall@3": 0.7222,
+      "recall@5": 0.8889,
+      "mean_cosine": 0.4998
+    }
+  ]
+}
