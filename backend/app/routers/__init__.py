@@ -1,3 +1,3 @@
-from app.routers import findings, health, scans
+from app.routers import eval_results, findings, health, repositories, scans
 
-__all__ = ["findings", "health", "scans"]
+__all__ = ["eval_results", "findings", "health", "repositories", "scans"]

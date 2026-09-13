@@ -10,7 +10,8 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.config import settings
 from app.models import Finding, Repository, Scan
-from app.models.enums import ScanStatus
+from app.models.enums import ScanStatus, Severity
+from app.schemas.scan import SeverityCounts
 from app.services.git_service import (
     GitResolutionError,
     cleanup_ephemeral,
@@ -55,6 +56,31 @@ class ScanService:
 
     def get_finding(self, finding_id: uuid.UUID) -> Finding | None:
         return self.db.get(Finding, finding_id)
+
+    def list_scans(self) -> list[Scan]:
+        stmt = (
+            select(Scan)
+            .options(selectinload(Scan.repository), selectinload(Scan.findings))
+            .order_by(Scan.created_at.desc())
+        )
+        return list(self.db.scalars(stmt).all())
+
+    def list_repositories(self) -> list[Repository]:
+        stmt = select(Repository).order_by(Repository.name.asc())
+        return list(self.db.scalars(stmt).all())
+
+    def get_repository(self, repository_id: uuid.UUID) -> Repository | None:
+        return self.db.get(Repository, repository_id)
+
+    def repository_trends(self, repository_id: uuid.UUID) -> list[Scan]:
+        stmt = (
+            select(Scan)
+            .options(selectinload(Scan.findings), selectinload(Scan.repository))
+            .where(Scan.repository_id == repository_id)
+            .where(Scan.status == ScanStatus.COMPLETED)
+            .order_by(Scan.created_at.asc())
+        )
+        return list(self.db.scalars(stmt).all())
 
     def get_scan(self, scan_id: uuid.UUID) -> Scan | None:
         stmt = (
@@ -186,3 +212,12 @@ def run_scan_job(scan_id: uuid.UUID) -> None:
         ScanService(db).execute(scan_id)
     finally:
         db.close()
+
+
+def severity_counts(findings: list[Finding]) -> SeverityCounts:
+    counts = {item.value: 0 for item in Severity}
+    for finding in findings:
+        key = finding.severity.value if isinstance(finding.severity, Severity) else str(finding.severity)
+        if key in counts:
+            counts[key] += 1
+    return SeverityCounts(**counts)

@@ -53,6 +53,29 @@ class ScanAccepted(BaseModel):
     repository: RepositoryRead
 
 
+class SeverityCounts(BaseModel):
+    critical: int = 0
+    high: int = 0
+    medium: int = 0
+    low: int = 0
+    info: int = 0
+
+
+class ScanSummary(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    status: ScanStatus
+    commit_sha: str | None
+    error_message: str | None
+    started_at: datetime | None
+    finished_at: datetime | None
+    created_at: datetime
+    repository: RepositoryRead
+    findings_count: int
+    severity_counts: SeverityCounts
+
+
 class ScanRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -66,6 +89,19 @@ class ScanRead(BaseModel):
     repository: RepositoryRead
     findings: list[FindingRead]
     findings_count: int
+
+
+class TrendPoint(BaseModel):
+    scan_id: uuid.UUID
+    created_at: datetime
+    finished_at: datetime | None
+    findings_count: int
+    severity_counts: SeverityCounts
+
+
+class TrendResponse(BaseModel):
+    repository: RepositoryRead
+    points: list[TrendPoint]
 
 
 class ExplainResponse(BaseModel):

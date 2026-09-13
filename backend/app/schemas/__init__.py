@@ -6,6 +6,10 @@ from app.schemas.scan import (
     ScanAccepted,
     ScanCreate,
     ScanRead,
+    ScanSummary,
+    SeverityCounts,
+    TrendPoint,
+    TrendResponse,
 )
 
 __all__ = [
@@ -16,4 +20,8 @@ __all__ = [
     "ScanAccepted",
     "ScanCreate",
     "ScanRead",
+    "ScanSummary",
+    "SeverityCounts",
+    "TrendPoint",
+    "TrendResponse",
 ]

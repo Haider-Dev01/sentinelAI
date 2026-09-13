@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-09-13T08:12:00.842327+00:00",
+  "n_documents": 22,
+  "n_questions": 18,
+  "winner": {
+    "embedder": "tfidf-baseline",
+    "chunker": "section",
+    "n_chunks": 110,
+    "recall@3": 0.8889,
+    "recall@5": 0.9444,
+    "mean_cosine": 0.1903
+  },
+  "rows": [
+    {
+      "embedder": "tfidf-baseline",
+      "chunker": "fixed",
+      "n_chunks": 135,
+      "recall@3": 0.7778,
+      "recall@5": 0.8889,
+      "mean_cosine": 0.1802
+    },
+    {
+      "embedder": "tfidf-baseline",
+      "chunker": "paragraph",
+      "n_chunks": 104,
+      "recall@3": 0.8333,
+      "recall@5": 0.8333,
+      "mean_cosine": 0.1786
+    },
+    {
+      "embedder": "tfidf-baseline",
+      "chunker": "section",
+      "n_chunks": 110,
+      "recall@3": 0.8889,
+      "recall@5": 0.9444,
+      "mean_cosine": 0.1903
+    },
+    {
+      "embedder": "all-minilm-l6-v2",
+      "chunker": "fixed",
+      "n_chunks": 135,
+      "recall@3": 0.7222,
+      "recall@5": 0.8889,
+      "mean_cosine": 0.485
+    },
+    {
+      "embedder": "all-minilm-l6-v2",
+      "chunker": "paragraph",
+      "n_chunks": 104,
+      "recall@3": 0.7778,
+      "recall@5": 0.8889,
+      "mean_cosine": 0.4762
+    },
+    {
+      "embedder": "all-minilm-l6-v2",
+      "chunker": "section",
+      "n_chunks": 110,
+      "recall@3": 0.7222,
+      "recall@5": 0.8889,
+      "mean_cosine": 0.4998
+    }
+  ],
+  "skipped": ["text-embedding-3-small"]
+}

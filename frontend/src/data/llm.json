@@ -1,0 +1,32 @@
+{
+  "rows": [
+    {
+      "model": "template-fixer",
+      "n": 8,
+      "syntax_ok_rate": 1.0,
+      "hallucination_rate": 0.0,
+      "mean_latency_s": 0.0001,
+      "mean_cost_usd": 0.0
+    },
+    {
+      "model": "sloppy-fixer",
+      "n": 8,
+      "syntax_ok_rate": 0.0,
+      "hallucination_rate": 1.0,
+      "mean_latency_s": 0.0,
+      "mean_cost_usd": 0.0
+    }
+  ],
+  "winner": {
+    "model": "template-fixer",
+    "n": 8,
+    "syntax_ok_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "mean_latency_s": 0.0001,
+    "mean_cost_usd": 0.0
+  },
+  "unavailable": [
+    "openai:gpt-4o-mini skipped — OPENAI_API_KEY unset",
+    "ollama:llama3.1 skipped — not reachable at http://127.0.0.1:11434"
+  ]
+}

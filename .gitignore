@@ -18,7 +18,7 @@ tmp/
 .scan-work/
 
 # Node (frontend, later)
-node_modules/
+coverage/
 
 # IDE
 .idea/
